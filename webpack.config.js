@@ -1,17 +1,25 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 module.exports = {
-	mode: 'development',
+
 	entry: './src/index.js',
 
 	output: {
-		filename: '[name].[chunkhash].js',
+		filename: '[name].[chunkhash:8].js',
 		path: path.resolve(__dirname, 'dist')
 	},
 
-	plugins: [new webpack.ProgressPlugin(), new HtmlWebpackPlugin()],
+	plugins: [
+		new webpack.ProgressPlugin(), 
+		new HtmlWebpackPlugin({
+			filename: 'index.html',
+			template: path.resolve(__dirname, 'src/index.html')
+		}),
+		new MiniCssExtractPlugin({filename: "[name]-[contenthash:8].css"})
+	],
 
 	module: {
 		rules: [
@@ -26,13 +34,21 @@ module.exports = {
 					presets: [
 						[
 							'@babel/preset-env',
+							'@babel/preset-react',
 							{
 								modules: false
 							}
 						]
 					]
 				}
-			}
+			},
+			{
+                test: /\.css$/,
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    'css-loader'
+                ]
+            }
 		]
 	},
 
