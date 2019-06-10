@@ -34,11 +34,11 @@ module.exports = {
 					presets: [
 						[
 							'@babel/preset-env',
-							'@babel/preset-react',
 							{
 								modules: false
 							}
-						]
+						],
+						['@babel/preset-react']
 					]
 				}
 			},
@@ -46,7 +46,8 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    'css-loader'
+					'css-loader',
+					'style-loader'
                 ]
             }
 		]
