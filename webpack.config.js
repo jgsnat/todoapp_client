@@ -49,7 +49,11 @@ module.exports = {
 					'css-loader',
 					'style-loader'
                 ]
-            }
+			},
+			{
+				test: /\.woff|.woff2|.ttf|.eot|.svg*.*$/,
+				loader: 'file'
+			}
 		]
 	},
 
@@ -70,6 +74,10 @@ module.exports = {
 	},
 
 	devServer: {
-		open: true
+		publicPath: "/",
+        contentBase: "./dist",
+        port: "3000",
+        headers: { "Cache-Control": "max-age=600"},
+        historyApiFallback: true
 	}
 };
