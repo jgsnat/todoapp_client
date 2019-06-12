@@ -1,7 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+require('font-awesome-webpack-4');
 
 module.exports = {
 
@@ -11,6 +12,10 @@ module.exports = {
 		filename: '[name].[chunkhash:8].js',
 		path: path.resolve(__dirname, 'dist')
 	},
+
+	resolve: {
+        extensions: [".js",".jsx"]
+    },
 
 	plugins: [
 		new webpack.ProgressPlugin(), 
@@ -26,6 +31,7 @@ module.exports = {
 			{
 				test: /.(js|jsx)$/,
 				include: [path.resolve(__dirname, 'src')],
+				exclude: /node_modules/,
 				loader: 'babel-loader',
 
 				options: {
@@ -50,27 +56,15 @@ module.exports = {
 					'style-loader'
                 ]
 			},
-			{
-				test: /\.woff|.woff2|.ttf|.eot|.svg*.*$/,
-				loader: 'file'
+			{ 
+				test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+				loader: "url-loader?limit=10000&mimetype=application/font-woff" 
+			},
+      		{ 
+				test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, 
+				loader: "file-loader" 
 			}
 		]
-	},
-
-	optimization: {
-		splitChunks: {
-			cacheGroups: {
-				vendors: {
-					priority: -10,
-					test: /[\\/]node_modules[\\/]/
-				}
-			},
-
-			chunks: 'async',
-			minChunks: 1,
-			minSize: 30000,
-			name: true
-		}
 	},
 
 	devServer: {
