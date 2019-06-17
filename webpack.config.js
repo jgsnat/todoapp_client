@@ -16,10 +16,7 @@ module.exports = {
     },
 
     resolve: {
-        extensions: ['', '.js', '.jsx'],
-        alias: {
-            modules: __dirname + '/node_modules'
-        }
+        extensions: ['.js', '.jsx']
     },
 
     plugins: [
@@ -27,9 +24,9 @@ module.exports = {
     ],
 
     module: {
-        loaders: [
+        rules: [
             {
-                test: /.js[x]?$/,
+                test: /\.(js|jsx)$/,
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
